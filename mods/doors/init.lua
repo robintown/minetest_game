@@ -437,11 +437,11 @@ function doors.register(name, def)
 	def.selection_box = {type = "fixed", fixed = {-1/2,-1/2,-1/2,1/2,3/2,-6/16}}
 	def.collision_box = {type = "fixed", fixed = {-1/2,-1/2,-1/2,1/2,3/2,-6/16}}
 
-	if def.model == "new" then
-		def.mesh = "door_new_a.obj"
+	if def.model then
+		def.mesh = def.model .. "_a.obj"
 		minetest.register_node(":" .. name .. "_a", def)
 
-		def.mesh = "door_new_b.obj"
+		def.mesh = def.model .. "_b.obj"
 		minetest.register_node(":" .. name .. "_b", def)
 	else
 		def.mesh = "door_a.obj"
@@ -456,10 +456,10 @@ function doors.register(name, def)
 end
 
 doors.register("door_wood", {
-        model = "new",
 		tiles = {{ name = "doors_door_wood.png", backface_culling = true }},
 		description = "Wooden Door",
 		inventory_image = "doors_item_wood.png",
+		model = "door_new",
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
 		recipe = {
 			{"group:wood", "group:wood"},
@@ -469,10 +469,10 @@ doors.register("door_wood", {
 })
 
 doors.register("door_steel", {
-        model = "new",
-		tiles = {{name = "doors_door_steel.png", backface_culling = true}},
+		tiles = {{ name = "doors_door_steel.png", backface_culling = true }},
 		description = "Steel Door",
 		inventory_image = "doors_item_steel.png",
+		model = "door_new",
 		protected = true,
 		groups = {cracky = 1, level = 2},
 		sounds = default.node_sound_metal_defaults(),
@@ -644,7 +644,7 @@ function doors.register_trapdoor(name, def)
 	local def_opened = table.copy(def)
 	local def_closed = table.copy(def)
 
-	if def.model == "new" then
+	if def.model == "trapdoor_new" then
 		def_closed.node_box = {
 		    type = "fixed",
 		    fixed = {
@@ -656,6 +656,8 @@ function doors.register_trapdoor(name, def)
 		                {-2/16, -0.5, -5/16, 2/16, -6/16, 6/16}
 		    }
 		}
+	elseif def.closed and def.opened then
+	    def_closed.node_box = def.closed
 	else
 		def_closed.node_box = {
 		    type = "fixed",
@@ -675,7 +677,7 @@ function doors.register_trapdoor(name, def)
 		def.tile_side
 	}
 
-	if def.model == "new" then
+	if def.model == "trapdoor_new" then
 		def_opened.node_box = {
 		    type = "fixed",
 		    fixed = {
@@ -687,6 +689,8 @@ function doors.register_trapdoor(name, def)
 		                {-5/16, -2/16, 6/16, 5/16, 2/16, 0.5}
 		    }
 		}
+	elseif def.opened and def.closed then
+	    def_opened.node_box = def.opened
 	else
 		def_opened.node_box = {
 		    type = "fixed",
@@ -719,7 +723,7 @@ end
 doors.register_trapdoor("doors:trapdoor", {
 	description = "Wooden Trapdoor",
 	inventory_image = "doors_trapdoor.png",
-	model = "new",
+	model = "trapdoor_new",
 	wield_image = "doors_trapdoor.png",
 	tile_front = "doors_trapdoor.png",
 	tile_side = "doors_trapdoor_side.png",
@@ -729,7 +733,7 @@ doors.register_trapdoor("doors:trapdoor", {
 doors.register_trapdoor("doors:trapdoor_steel", {
 	description = "Steel Trapdoor",
 	inventory_image = "doors_trapdoor_steel.png",
-	model = "new",
+	model = "trapdoor_new",
 	wield_image = "doors_trapdoor_steel.png",
 	tile_front = "doors_trapdoor_steel.png",
 	tile_side = "doors_trapdoor_steel_side.png",
