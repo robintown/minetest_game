@@ -459,6 +459,7 @@ doors.register("door_wood", {
 		tiles = {{ name = "doors_door_wood.png", backface_culling = true }},
 		description = "Wooden Door",
 		inventory_image = "doors_item_wood.png",
+		model = "door_new",
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
 		recipe = {
 			{"group:wood", "group:wood"},
@@ -471,6 +472,7 @@ doors.register("door_steel", {
 		tiles = {{ name = "doors_door_steel.png", backface_culling = true }},
 		description = "Steel Door",
 		inventory_image = "doors_item_steel.png",
+		model = "door_new",
 		protected = true,
 		groups = {cracky = 1, level = 2},
 		sounds = default.node_sound_metal_defaults(),
