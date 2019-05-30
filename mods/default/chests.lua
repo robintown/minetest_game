@@ -1,10 +1,10 @@
 default.chest = {}
 
-function default.chest.get_chest_formspec(pos)
+function default.chest.get_chest_formspec(pos, size)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	local formspec =
 		"size[8,9]" ..
-		"list[nodemeta:" .. spos .. ";main;0,0.3;8,4;]" ..
+		"list[nodemeta:" .. spos .. ";main;0,0.3;" .. size[1] .. "," .. size[2] .. ";]" ..
 		"list[current_player;main;0,4.85;8,1;]" ..
 		"list[current_player;main;0,6.08;8,3;8]" ..
 		"listring[nodemeta:" .. spos .. ";main]" ..
@@ -81,13 +81,17 @@ function default.chest.register_chest(name, d)
 	def.legacy_facedir_simple = true
 	def.is_ground_content = false
 
+	if not def.size then
+		def.size = {8, 4}
+	end
+
 	if def.protected then
 		def.on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", "Locked Chest")
 			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
-			inv:set_size("main", 8*4)
+			inv:set_size("main", def.size[1]*def.size[2])
 		end
 		def.after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
@@ -134,7 +138,7 @@ function default.chest.register_chest(name, d)
 			end
 			minetest.after(0.2, minetest.show_formspec,
 					clicker:get_player_name(),
-					"default:chest", default.chest.get_chest_formspec(pos))
+					"default:chest", default.chest.get_chest_formspec(pos, def.size))
 			default.chest.open_chests[clicker:get_player_name()] = { pos = pos,
 					sound = def.sound_close, swap = name }
 		end
@@ -188,7 +192,7 @@ function default.chest.register_chest(name, d)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", "Chest")
 			local inv = meta:get_inventory()
-			inv:set_size("main", 8*4)
+			inv:set_size("main", def.size[1]*def.size[2])
 		end
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
@@ -205,7 +209,7 @@ function default.chest.register_chest(name, d)
 			end
 			minetest.after(0.2, minetest.show_formspec,
 					clicker:get_player_name(),
-					"default:chest", default.chest.get_chest_formspec(pos))
+					"default:chest", default.chest.get_chest_formspec(pos, def.size))
 			default.chest.open_chests[clicker:get_player_name()] = { pos = pos,
 					sound = def.sound_close, swap = name }
 		end
