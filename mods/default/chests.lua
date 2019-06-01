@@ -2,14 +2,27 @@ default.chest = {}
 
 function default.chest.get_chest_formspec(pos, size)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
-	local formspec =
-		"size[8,9]" ..
-		"list[nodemeta:" .. spos .. ";main;0,0.3;" .. size[1] .. "," .. size[2] .. ";]" ..
-		"list[current_player;main;0,4.85;8,1;]" ..
-		"list[current_player;main;0,6.08;8,3;8]" ..
-		"listring[nodemeta:" .. spos .. ";main]" ..
-		"listring[current_player;main]" ..
-		default.get_hotbar_bg(0,4.85)
+	-- Find widest and highest possible combination
+	local fs_size = {
+		x = math.max(size.x, 8),
+		y = size.y + 5
+	}
+	-- Center the lists
+	local x_chest  = (fs_size.x - size.x) / 2
+	local x_player = (fs_size.x - 8) / 2
+	local formspec = (
+		"size[%i,%i]" ..
+		"list[nodemeta:%s;main;%f,0.3;%i,%i;]" ..
+		"list[current_player;main;%f,%f;8,1;]" ..
+		"list[current_player;main;%f,%f;8,3;8]" ..
+		"listring[nodemeta:%s;main]" ..
+		"listring[current_player;main]"):format(
+			fs_size.x, fs_size.y,
+			spos, x_chest, size.x, size.y,
+			x_player, size.y + 0.85,
+			x_player, size.y + 2.08,
+			spos) ..
+		default.get_hotbar_bg(0, 0.85 + size.y)
 	return formspec
 end
 
@@ -82,7 +95,7 @@ function default.chest.register_chest(name, d)
 	def.is_ground_content = false
 
 	if not def.size then
-		def.size = {8, 4}
+		def.size = {x = 8, y = 4}
 	end
 
 	if def.protected then
@@ -91,7 +104,7 @@ function default.chest.register_chest(name, d)
 			meta:set_string("infotext", "Locked Chest")
 			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
-			inv:set_size("main", def.size[1]*def.size[2])
+			inv:set_size("main", def.size.x*def.size.y)
 		end
 		def.after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
@@ -192,7 +205,7 @@ function default.chest.register_chest(name, d)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", "Chest")
 			local inv = meta:get_inventory()
-			inv:set_size("main", def.size[1]*def.size[2])
+			inv:set_size("main", def.size.x*def.size.y)
 		end
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
@@ -280,7 +293,7 @@ function default.chest.register_chest(name, d)
 			local inv = meta:get_inventory()
 			local list = inv:get_list("default:chest")
 			if list then
-				inv:set_size("main", 8*4)
+				inv:set_size("main", def.size.x*def.size.y)
 				inv:set_list("main", list)
 				inv:set_list("default:chest", nil)
 			end
