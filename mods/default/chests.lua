@@ -22,7 +22,7 @@ function default.chest.get_chest_formspec(pos, size)
 			x_player, size.y + 0.85,
 			x_player, size.y + 2.08,
 			spos) ..
-		default.get_hotbar_bg(0, 0.85 + size.y)
+		default.get_hotbar_bg(x_player, 0.85 + size.y)
 	return formspec
 end
 
