@@ -2471,6 +2471,15 @@ local bookshelf_formspec =
 	"listring[current_player;main]" ..
 	default.get_hotbar_bg(0,2.85)
 
+local function swap_node(pos, name)
+	local node = minetest.get_node(pos)
+	if node.name == name then
+		return
+	end
+	node.name = name
+	minetest.swap_node(pos, node)
+end
+
 local function update_bookshelf(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -2480,6 +2489,8 @@ local function update_bookshelf(pos)
 	-- Inventory slots overlay
 	local bx, by = 0, 0.3
 	local n_written, n_empty = 0, 0
+
+	swap_node(pos, "default:bookshelf_empty")
 	for i = 1, 16 do
 		if i == 9 then
 			bx = 0
@@ -2490,6 +2501,7 @@ local function update_bookshelf(pos)
 			formspec = formspec ..
 				"image[" .. bx .. "," .. by .. ";1,1;default_bookshelf_slot.png]"
 		else
+			swap_node(pos, "default:bookshelf")
 			local metatable = stack:get_meta():to_table() or {}
 			if metatable.fields and metatable.fields.text then
 				n_written = n_written + stack:get_count()
@@ -2507,53 +2519,78 @@ local function update_bookshelf(pos)
 	end
 end
 
-minetest.register_node("default:bookshelf", {
+local function can_dig(pos, player)
+	local inv = minetest.get_meta(pos):get_inventory()
+	return inv:is_empty("books")
+end
+local function allow_metadata_inventory_put(pos, listname, index, stack)
+	if minetest.get_item_group(stack:get_name(), "book") ~= 0 then
+		return stack:get_count()
+	end
+	return 0
+end
+local function on_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
+	minetest.log("action", player:get_player_name() ..
+		" moves stuff in bookshelf at " .. minetest.pos_to_string(pos))
+	update_bookshelf(pos)
+end
+local function on_metadata_inventory_put(pos, listname, index, stack, player)
+	minetest.log("action", player:get_player_name() ..
+		" puts stuff to bookshelf at " .. minetest.pos_to_string(pos))
+	update_bookshelf(pos)
+end
+local function on_metadata_inventory_take(pos, listname, index, stack, player)
+	minetest.log("action", player:get_player_name() ..
+		" takes stuff from bookshelf at " .. minetest.pos_to_string(pos))
+	update_bookshelf(pos)
+end
+local function on_blast(pos)
+	local drops = {}
+	default.get_inventory_drops(pos, "books", drops)
+	drops[#drops+1] = "default:bookshelf"
+	minetest.remove_node(pos)
+	return drops
+end
+
+minetest.register_node("default:bookshelf_empty", {
 	description = S("Bookshelf"),
 	tiles = {"default_wood.png", "default_wood.png", "default_wood.png",
-		"default_wood.png", "default_bookshelf.png", "default_bookshelf.png"},
+		"default_wood.png", "default_bookshelf_empty.png", "default_bookshelf_empty.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		inv:set_size("books", 8 * 2)
-		update_bookshelf(pos)
-	end,
-	can_dig = function(pos,player)
-		local inv = minetest.get_meta(pos):get_inventory()
-		return inv:is_empty("books")
-	end,
-	allow_metadata_inventory_put = function(pos, listname, index, stack)
-		if minetest.get_item_group(stack:get_name(), "book") ~= 0 then
-			return stack:get_count()
-		end
-		return 0
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name() ..
-			" moves stuff in bookshelf at " .. minetest.pos_to_string(pos))
-		update_bookshelf(pos)
-	end,
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name() ..
-			" puts stuff to bookshelf at " .. minetest.pos_to_string(pos))
-		update_bookshelf(pos)
-	end,
-	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name() ..
-			" takes stuff from bookshelf at " .. minetest.pos_to_string(pos))
-		update_bookshelf(pos)
-	end,
-	on_blast = function(pos)
-		local drops = {}
-		default.get_inventory_drops(pos, "books", drops)
-		drops[#drops+1] = "default:bookshelf"
-		minetest.remove_node(pos)
-		return drops
-	end,
+	    local meta = minetest.get_meta(pos)
+	    local inv = meta:get_inventory()
+	    inv:set_size("books", 8 * 2)
+	    update_bookshelf(pos)
+    end,
+
+	can_dig = can_dig,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	on_metadata_inventory_move = on_metadata_inventory_move,
+	on_metadata_inventory_put = on_metadata_inventory_put,
+	on_metadata_inventory_take = on_metadata_inventory_take,
+	on_blast = on_blast
+})
+
+minetest.register_node("default:bookshelf", {
+	description = S("Bookshelf"),
+	tiles = {"default_wood.png", "default_wood.png", "default_wood.png",
+		"default_wood.png", "default_bookshelf.png", "default_bookshelf.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, not_in_creative_inventory=1},
+	sounds = default.node_sound_wood_defaults(),
+
+	can_dig = can_dig,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	on_metadata_inventory_move = on_metadata_inventory_move,
+	on_metadata_inventory_put = on_metadata_inventory_put,
+	on_metadata_inventory_take = on_metadata_inventory_take,
+	on_blast = on_blast
 })
 
 local function register_sign(material, desc, def)
