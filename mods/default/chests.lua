@@ -1,5 +1,8 @@
 default.chest = {}
 
+-- support for MT game translation.
+local S = default.get_translator
+
 function default.chest.get_chest_formspec(pos, size)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	-- Find widest and highest possible combination
