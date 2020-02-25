@@ -2872,12 +2872,17 @@ minetest.register_node("default:barrier", {
 	description = S("Barrier"),
 	tiles = {"default_barrier.png"},
 	drawtype = "airlike",
+	paramtype = "light",
 	inventory_image = "default_cloud.png",
+	wield_image = "default_cloud.png",
 	is_ground_content = false,
+	sunlight_propagates = true,
+	--pointable = false,
+	--diggable = false,
+	drop = "",
 	groups = {not_in_creative_inventory = 1, cracky = 1},
 
-	on_blast = function() end,
-	alpha = 1
+	on_blast = function() end
 })
 
 --
