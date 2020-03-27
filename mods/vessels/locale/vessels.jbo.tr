@@ -1,6 +1,8 @@
 # textdomain: vessels
-Empty Drinking Glass=lo blacykabri to kunti toi
-Empty Glass Bottle=lo blacybo'i to kunti toi
-Glass Fragments=lo derxi be lo blaci spisa
-Vessels Shelf=lo vasru kajna
-Empty Heavy Steel Bottle=lo tilju ke gasta botpi to kunti toi
+Vessels Shelf=vasru kajna
+Empty Glass Bottle=blaci botpi je cu kunti
+Empty Drinking Glass=kabri je cu kunti
+Empty Heavy Steel Bottle=tilju ke gasta botpi je cu kunti
+Glass Fragments=blaci spisa
+Empty Vessels Shelf=vasru kajna je cu kunti
+Vessels Shelf (@1 items)=vasru kajna to vasru @1 dacti toi

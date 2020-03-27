@@ -1,2 +1,8 @@
 # textdomain: bones
-Bones=gunma lo'i bongu
+Bones=derxi pa bongu
+@1's old bones=.i pu zu bongu la'o zoi. @1 .zoi
+@1 died at @2.=.i zoi zoi. @2 .zoi judri le stuzi be le fasnu poi nu la'o zoi. @1 .zoi morsi
+@1 died at @2, and dropped their inventory.=.i zoi zoi. @2 .zoi judri le stuzi be le fasnu poi nu la'o zoi. @1 .zoi morsi je cu cirko tu'a ro se bevri
+@1 died at @2, and bones were placed.=.i zoi zoi. @2 .zoi judri le stuzi be le fasnu poi nu la'o zoi. @1 .zoi morsi be'o je pa bongu
+@1's fresh bones=.i pu zi bongu la'o zoi. @1 .zoi
+@1's bones=.i bongu la'o zoi. @1 .zoi

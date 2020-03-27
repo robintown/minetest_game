@@ -1,0 +1,8 @@
+# textdomain: sethome
+Can use /sethome and /home=.i kakne le ka pilno la'o zoi. /sethome .zoi je la'o zoi. /home .zoi
+Teleport you to your home point=.i rinka pa nu do sukmu'u le zdani se judri pe do
+Teleported to home!=.i mo'u sukmu'u le zdani
+Set a home using /sethome=.i sarcu fa le nu da vreji le du'u zdani do kei kei noi se tadji tu'a la'o zoi. /sethome .zoi
+Set your home point=.i rinka pa nu co'a vreji le du'u zdani do
+Home set!=.i mo'u co'a vreji le du'u zdani
+Player not found!=.i le pilno na zasti

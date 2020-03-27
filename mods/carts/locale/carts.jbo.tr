@@ -1,4 +1,6 @@
 # textdomain: carts
-Brake Rail=lo terjabre teryre'e
-Powered Rail=lo se dikca teryre'e
-Rail=lo teryre'e
+Cart=carce
+(Sneak+Click to pick up)=.i lo nu dzibi'o je cu samxa'e te cabra cu tadji lo nu lebna
+Rail=rengarna
+Powered Rail=rengarna je cu se dikca
+Brake Rail=rengarna je cu te jabre

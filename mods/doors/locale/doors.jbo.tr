@@ -1,13 +1,18 @@
 # textdomain: doors
+Hidden Door Segment=zilmipri vrogai pagbu
+Owned by @1=.i la'o zoi. @1 .zoi ponse
+You do not own this locked door.=.i do na ponse le vrogai poi se stela
+a locked door=vrogai je cu se stela
+Wooden Door=mudri vrogai
+Steel Door=gasta vrogai
 Glass Door=blaci vrogai
 Obsidian Glass Door=je'erma'ablaci blaci vrogai
-Steel Door=gasta vrogai
-Wooden Door=mudri vrogai
-Acacia Wood Fence Gate=lo atkaci,ia garbimvrogai
-Aspen Wood Fence Gate=lo ricrpopulu garbimvrogai
-Jungle Wood Fence Gate=lo glatimdemricfoi mudri garbimvrogai
-Pine Wood Fence Gate=lo ckunu garbimvrogai
-Apple Wood Fence Gate=lo mudri garbimvrogai
-Hidden Door Segment=pagbu lo se mipri vrogai
+You do not own this trapdoor.=.i do na ponse le lolvrogai
+a locked trapdoor=lolvrogai je cu se stela
 Wooden Trapdoor=mudri lolvrogai
 Steel Trapdoor=gasta lolvrogai
+Apple Wood Fence Gate=plisytricu mudri garbimvrogai
+Acacia Wood Fence Gate=ricrkaciia mudri garbimvrogai
+Jungle Wood Fence Gate=cavrictu'a mudri garbimvrogai
+Pine Wood Fence Gate=ckunu mudri garbimvrogai
+Aspen Wood Fence Gate=ricrpopulu mudri garbimvrogai

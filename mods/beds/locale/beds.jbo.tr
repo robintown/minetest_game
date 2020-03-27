@@ -1,3 +1,8 @@
 # textdomain: beds
-Simple Bed=sampu ckana
-Fancy Bed=se jadni ckana
+Fancy Bed=ckana je cu se jadni
+Simple Bed=ckana je cu sampu
+Leave Bed=cliva le ckana
+Good morning.=.i cerni
+@1 of @2 players are in bed=.i @1 cmima be lu'i @2 le pilno cu vreta pa ckana
+Force night skip=bapli le nu co'u nicte
+You can only sleep at night.=.i steci le ka nicte kei fa le ka do kakne le ka sipna ca pa ckaji be ce'u
